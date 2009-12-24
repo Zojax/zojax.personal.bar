@@ -1,0 +1,78 @@
+=======
+CHANGES
+=======
+
+1.4.2 (2009-11-20)
+------------------
+
+- Update cache on site changing
+
+
+1.4.1 (2009-10-14)
+------------------
+
+- Use IPersonalProfile for principal title
+
+- Update cache on personal profile changing
+
+
+1.4.0 (2009-08-11)
+------------------
+
+- Added caching
+
+
+1.3.2 (2009-06-21)
+------------------
+
+- Do not use z3c.autoinclude
+
+- Copyright changed to 'Zope Foundation and Contributors'
+
+
+1.3.1 (2009-03-17)
+------------------
+
+- Tests updated
+
+
+1.3.0 (2009-03-14)
+------------------
+
+- Rename to zojax.perosnal.bar
+
+- Moved portlet from zojax.portlets.personalbar
+
+
+1.2.2 (2008-11-14)
+------------------
+
+- Do not use manager for pageelement
+
+
+1.2.1 (2008-10-28)
+------------------
+
+- Added translations: nl, ru
+
+- Added default css styles
+
+
+1.2.0 (2008-08-13)
+------------------
+
+- Use new pageelement api
+
+
+1.0.0 (2008-05-15)
+------------------
+
+- Rename package to zojax.ui.personalbar
+
+- Tests added
+
+
+0.1.0 (2008-04-07)
+----------------
+
+- Initial release

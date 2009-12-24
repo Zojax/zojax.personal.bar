@@ -1,0 +1,42 @@
+===================
+Personalbar portlet
+===================
+
+    >>> from zope.testbrowser.testing import Browser
+
+    >>> user = Browser()
+    >>> user.handleErrors = False
+    >>> user.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> user.open("http://localhost/portlet.html")
+    >>> print user.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">
+        <ul>
+          <li class="z-personalbar-principal">
+            Manager:
+          </li>
+          <li><a href="http://localhost/logout.html">Logout</a></li>
+        </ul>
+      </div>
+    ...
+    </html>
+
+    >>> user = Browser()
+    >>> user.handleErrors = False
+    >>> user.open("http://localhost/portlet.html")
+    >>> print user.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">
+        <ul>
+          <li class="z-personalbar-principal">
+    	    <span class="z-personalbar-principal-not-logged-in">Not logged in &#8212;</span>
+          </li>
+          <li><a href="http://localhost/login.html">Login</a></li>
+        </ul>
+      </div>
+    ...
+    </html>

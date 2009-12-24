@@ -1,0 +1,4 @@
+<div class="z-portlet portlet-personalbar"
+     tal:define="bar pageelement:portal.personalbar"
+     tal:content="structure bar"
+     tal:condition="bar" />

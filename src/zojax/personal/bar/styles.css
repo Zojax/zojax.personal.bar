@@ -1,0 +1,66 @@
+/* zrt-cssregistry: */
+
+@media all {
+
+  .z-personalbar {
+    border-bottom: borderWidth borderStyle globalBorderColor;
+    background-color: globalBackgroundColor;
+    color: fontColor;
+    padding: 0em 0.5em 0em 0.5em;
+    margin: 0;
+  }
+
+  .z-portlet .z-personalbar {
+    border: borderWidth borderStyle globalBackgroundColor;
+    background-color: evenRowBackgroundColor;
+  }
+  
+  .z-personalbar-menu {
+    text-align: right;
+  }
+  
+  .z-personalbar-menu a {
+    text-decoration: none;
+  }
+
+  .z-personalbar-menu ul,
+  .z-personalbar-menu li {
+    margin: 0;
+    list-style: none;
+    list-style-image: none;
+    display: inline;
+    color: fontColor;
+    text-align: left;
+  }
+  
+  .z-personalbar-menu ul {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .z-personalbar-menu li {
+    z-index: 4;
+    padding-right: 0.4em;
+    color: discreetColor;
+  }
+
+  .z-personalbar-menu li a {
+    white-space: nowrap;
+  }
+  
+  .z-personalbar-menu li a:hover {
+    color: globalExtraColor;
+  }
+
+  .z-personalbar-principal {
+    text-transform: none;
+    padding-right: 0;
+  }
+
+}
+
+@media print { 
+  .z-personalbar { 
+    display: none;
+  }
+}
