@@ -1,0 +1,18 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zope">
+
+  <zojax:pagelet
+     name="test.html"
+     for="*"
+     template="test.pt"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     name="portlet.html"
+     for="*"
+     template="portlet.pt"
+     permission="zope.Public" />
+
+</configure>

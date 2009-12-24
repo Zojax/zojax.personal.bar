@@ -1,0 +1,165 @@
+===========
+Breadcrumbs
+===========
+
+    >>> from zope import component, interface
+    >>> from zope.testbrowser.testing import Browser
+    >>> from zope.app.testing.functional import getRootFolder
+    >>> from zope.app.component.hooks import setSite
+
+    >>> sm = component.getSiteManager()
+    >>> root = getRootFolder()
+    >>> setSite(root)
+
+PersonalBar for Unauthenticated user
+
+    >>> actor = Browser()
+    >>> actor.handleErrors = False
+    >>> actor.open("http://localhost/test.html")
+    >>> print actor.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">
+        <ul>
+          <li class="z-personalbar-principal">
+    ...Not logged in &#8212;...
+          </li>
+        </ul>
+      </div>
+    </div>
+    ...
+    </html>
+
+Register one personalbar item, it's just viewlet for IPersonalBar manager.
+Something like this::
+
+...  <browser:viewlet
+...     name="login"
+...     class=".loginitem.LoginMenuItem"
+...     manager="zojax.personal.bar.interfaces.IPersonalBar"
+...     permission="zope.Public" />
+
+    >>> from zope.security import checker
+    >>> from zope.viewlet.viewlet import ViewletBase
+    >>> from zope.viewlet.interfaces import IViewlet
+    >>> from zojax.personal.bar import interfaces
+
+    >>> class Login(ViewletBase):
+    ...     title = u'Login'
+    ...     weight = 1
+    ...     
+    ...     def isAvailable(self):
+    ...         return self.manager.isAnonymous
+    ...     
+    ...     def render(self):
+    ...         return u'<a href="http://localhost/login.html">Login</a>'
+
+    >>> required = {'__call__': checker.CheckerPublic,
+    ...             'browserDefault': checker.CheckerPublic,
+    ...             'publishTraverse': checker.CheckerPublic,
+    ...             'render': checker.CheckerPublic,}
+    >>> checker.defineChecker(Login, checker.Checker(required))
+
+    >>> sm.registerAdapter(
+    ...     Login,
+    ...     (interface.Interface, interface.Interface,
+    ...      interface.Interface, interfaces.IPersonalBar),
+    ...     IViewlet, name='login')
+
+    >>> actor.open("http://localhost/test.html")
+    >>> print actor.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">
+        <ul>
+          <li class="z-personalbar-principal">
+    ...Not logged in &#8212;...
+          </li>
+        </ul>
+      </div>
+    </div>
+    ...
+    </html>
+
+We need change personalbar caching tag
+
+    >>> from zojax.cache.interfaces import ITag
+
+    >>> sm.getUtility(ITag, 'personalbar').update()
+
+    >>> actor.open("http://localhost/test.html")
+    >>> print actor.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">
+        <ul>
+          <li class="z-personalbar-principal">
+    ...Not logged in &#8212;...
+          </li>
+          <li><a href="http://localhost/login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+    ...
+    </html>
+
+    >>> actor = Browser()
+    >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+
+    >>> actor.open("http://localhost/test.html")
+    >>> print actor.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">...
+        <ul>
+          <li class="z-personalbar-principal">
+    ...Manager:...
+          </li>
+        </ul>
+      </div>
+    </div>
+    ...
+    </html>
+
+    >>> class Logout(ViewletBase):
+    ...     title = u'Logout'
+    ...     weight = 1
+    ...     
+    ...     def isAvailable(self):
+    ...         return not self.manager.isAnonymous
+    ...     
+    ...     def render(self):
+    ...         return u'<a href="http://localhost/logout.html">Logout</a>'
+
+    >>> checker.defineChecker(Logout, checker.Checker(required))
+
+    >>> sm.registerAdapter(
+    ...     Logout,
+    ...     (interface.Interface, interface.Interface,
+    ...      interface.Interface, interfaces.IPersonalBar),
+    ...     IViewlet, name='logout')
+
+    >>> sm.getUtility(ITag, 'personalbar').update()
+
+    >>> actor.reload()
+    >>> print actor.contents
+    <html>
+    ...
+    <div class="z-personalbar">
+      <div class="z-personalbar-menu">...
+        <ul>
+          <li class="z-personalbar-principal">
+    ...Manager:...
+          </li>
+          <li><a href="http://localhost/logout.html">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+    ...
+    </html>
+
+    >>> setSite(None)

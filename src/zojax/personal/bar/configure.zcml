@@ -1,0 +1,44 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.personal.bar">
+
+  <browser:viewletManager
+     name="portal.personalbar-manager"
+     provides=".interfaces.IPersonalBar"
+     template="manager.pt"
+     class=".manager.PersonalBar"
+     permission="zope.Public" />
+
+  <zojax:pageelement
+     title="Personal Bar"
+     name="portal.personalbar"
+     template="personalbar.pt"
+     class=".personalbar.PersonalBar" />
+     
+  <subscriber handler=".personalbar.siteModified" />
+
+  <!-- portlet -->
+  <zojax:portlet
+     name="portlet.personalbar"
+     title="Personal Bar"
+     provides=".interfaces.IPersonalBarPortlet" />
+
+  <zojax:pagelet
+     type="portlet.view"
+     for=".interfaces.IPersonalBarPortlet"
+     template="portlet.pt" />
+
+  <!-- translations -->
+  <i18n:registerTranslations directory="locales"/>
+
+  <!-- styles -->
+  <zojax:resourceinclude
+     name="zojax-personal-bar.css"
+     library="zojax"
+     type="stylesheet"
+     file="styles.css" filetype="zrt" />
+
+</configure>

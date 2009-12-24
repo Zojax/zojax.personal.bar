@@ -1,0 +1,15 @@
+<div class="z-personalbar" i18n:domain="zojax.personal.bar">
+  <div class="z-personalbar-menu" tal:define="isAnonymous view/isAnonymous">
+    <ul>
+      <li class="z-personalbar-principal">
+	<span class="z-personalbar-principal-not-logged-in"
+	      tal:condition="isAnonymous"
+	      i18n:translate="">Not logged in &#8212;</span>
+	<tal:block condition="not:isAnonymous"
+		   content="string:${view/profile/title}:" />
+      </li>
+      <li tal:repeat="viewlet view/viewlets"
+	  tal:content="structure viewlet/render"></li>
+    </ul>
+  </div>
+</div>
